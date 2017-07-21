@@ -1,7 +1,7 @@
 {
   "name": "postcss-styler",
   "description": "A Sass/PostCSS toolbelt for superspeed front-end development",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "author": {
     "name": "Arpad Hegedus",
     "email": "hegedus.arpad@gmail.com",
@@ -39,7 +39,7 @@
     "postcss-gridder": "^1.0.0",
     "postcss-import": "^10.0.0",
     "postcss-morphicon": "^1.0.0",
-    "postcss-node-sass": "^1.1.1",
+    "postcss-node-sass": "^1.1.2",
     "postcss-sides": "^1.0.1",
     "postcss-timing-function": "^1.0.2"
   }
