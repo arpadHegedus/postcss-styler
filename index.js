@@ -9,7 +9,7 @@ let postcss = require('postcss');
 module.exports = postcss.plugin('styler', (opt = {}) => {
     let css = postcss();
     opt = Object.assign({
-        modules: ['remove-comments', 'media', 'at-style', 'icon', 'var', 'google-color', 'font', 'font-vsize', 'sides', 'timing-function', 'clear-fix', 'morphicon', 'gridder'],
+        modules: ['remove-comments', 'media', 'at-style', 'icon', 'color', 'var', 'google-color', 'font', 'font-vsize', 'sides', 'timing-function', 'clear-fix', 'morphicon', 'gridder'],
         sass: {
             indentType: 'tab',
             indentWidth: '1',
@@ -29,6 +29,7 @@ module.exports = postcss.plugin('styler', (opt = {}) => {
     if (opt.modules.indexOf('remove-comments') >= 0) { css.use(require('./modules/remove-comments.js')); }
     if (opt.modules.indexOf('media') >= 0) { css.use(require('./modules/media.js')(opt.media)); }
     if (opt.modules.indexOf('icon') >= 0) { css.use(require('./modules/icon.js')); }
+    if (opt.modules.indexOf('color') >= 0) { css.use(require('./modules/color')); }
     if (opt.modules.indexOf('var') >= 0) { css.use(require('./modules/var.js')); }
     if (opt.modules.indexOf('google-color') >= 0) { css.use(require('postcss-google-color')); }
 
