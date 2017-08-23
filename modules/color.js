@@ -15,7 +15,7 @@ module.exports = postcss.plugin('postcss-styler-color', () => {
     let applyColor = o => {
         ['params', 'selector', 'prop', 'value'].forEach(prop => {
             if (o.hasOwnProperty(prop)) {
-                o[prop] = o[prop].replace(/(^c\(|\sc\()/ig, (s) => { return s.replace('c(', 'color-variable('); });
+                o[prop] = o[prop].replace(/(^c\(|[\s\(\,\)]c\()/ig, (s) => { return s.replace('c(', 'color-variable('); });
                 o[prop] = o[prop].replace(/color\-variable\(([^\s\)]+)(\s((([^\(\)]+)?\(([^\(\)]+)?\)([^\(\)]+)?)|[^\)]+))?\)/ig, (s, v, d = null) => {
                     let color = varReturn(`color-${v}`, o);
                     if (color === null) {
