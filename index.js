@@ -1,6 +1,6 @@
 /**
  * POSTCSS STYLER
- * @version 2.0.2
+ * @version 2.0.3
  * @author Arpad Hegedus <hegedus.arpad@gmail.com>
  */
 

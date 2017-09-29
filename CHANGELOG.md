@@ -1,3 +1,6 @@
+# 2.0.3 - 2017-09-29
+* Updated dependecies
+
 # 2.0.2 - 2017-08-23
 * Added better detection for variable and color functions
 * Updated dependencies
