@@ -39,7 +39,11 @@ module.exports = postcss.plugin('postcss-styler-icon', () => {
                 fontName = (util.sassHasVar(`${fontName}-font-family`, decl)) ? `$${fontName}-font-family` : null;
                 if (fontName) { 
                     let rule = postcss.rule();
-                    rule.selector = `&:${settings.selector}`;
+                    if (parent.type === 'atrule') { 
+                        rule.selector = `&:${settings.selector}`;
+                    } else {
+                        rule.selector = util.eachSelector(parent.selector, `&:${settings.selector}`);
+                    }                    
                     rule.append({ prop: 'font-family', value: fontName });
                     rule.append({ prop: 'content', value: `'#{$icon-${settings.icon}}'` });
                     delete settings.selector; delete settings.icon;

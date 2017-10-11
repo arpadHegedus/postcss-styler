@@ -1,3 +1,6 @@
+# 2.0.5 - 2017-10-11
+* Fixed issues with latest update
+
 # 2.0.4 - 2017-10-11
 * Fixed issue with icons not working together with var
 

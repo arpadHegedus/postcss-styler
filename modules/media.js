@@ -1,4 +1,5 @@
-let postcss = require('postcss');
+let postcss = require('postcss'),
+    util = require('postcss-plugin-utilities');
 
 module.exports = postcss.plugin('postcss-styler-media', (opt = {}) => {
     return css => {
