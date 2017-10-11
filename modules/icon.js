@@ -2,17 +2,7 @@ let postcss = require('postcss'),
     util = require('postcss-plugin-utilities');
 
 module.exports = postcss.plugin('postcss-styler-icon', () => {
-    return css => { 
-        let varExists = (v, node) => {
-            let parent = (node.parent) ? node.parent : null,
-                variable = false;
-            if (parent) {
-                parent.walkDecls(`$${v}`, decl => { variable = true; });
-                if (variable) { return true; }
-                return varExists(v, parent);
-            }
-            return false;
-        };
+    return css => {
         css.walkDecls('icon', decl => {
             let parent = decl.parent,
                 declVal = (decl.value.match(/(?!\B(\(\")[^\"\(\)]*),(?![^\"\(\)]*(\)|\")\B)/ig) === null) ? postcss.list.space(decl.value) : postcss.list.comma(decl.value),    
@@ -38,17 +28,18 @@ module.exports = postcss.plugin('postcss-styler-icon', () => {
                     'direction': ['ltr', 'rtl', 'initial', 'inherit'],
                     'unicode-bidi': ['normal', 'embed', 'bidi-override', 'initial', 'inherit']
                 }, { selector: 'before' });
-            if (settings.icon && varExists(`icon-${settings.icon}`, decl)) { 
+            if (settings.icon.indexOf('$') === 0) { settings.icon = util.sassGetVar(settings.icon, decl); }
+            if (settings.icon && util.sassHasVar(`icon-${settings.icon}`, decl)) { 
                 let fontName = 'icon';
                 settings.icon.split('-').forEach(segment => { 
-                    if (varExists(`${fontName}-${segment}-font-family`, decl)) { 
+                    if (util.sassHasVar(`${fontName}-${segment}-font-family`, decl)) { 
                         fontName = `${fontName}-${segment}`;
                     }
                 });
-                fontName = (varExists(`${fontName}-font-family`, decl)) ? `$${fontName}-font-family` : null;
+                fontName = (util.sassHasVar(`${fontName}-font-family`, decl)) ? `$${fontName}-font-family` : null;
                 if (fontName) { 
                     let rule = postcss.rule();
-                    rule.selector = util.eachSelector(parent.selector, `&:${settings.selector}`);
+                    rule.selector = `&:${settings.selector}`;
                     rule.append({ prop: 'font-family', value: fontName });
                     rule.append({ prop: 'content', value: `'#{$icon-${settings.icon}}'` });
                     delete settings.selector; delete settings.icon;

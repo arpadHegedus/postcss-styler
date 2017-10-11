@@ -2,24 +2,14 @@ let postcss = require('postcss'),
     util = require('postcss-plugin-utilities');
 
 module.exports = postcss.plugin('postcss-styler-color', () => {
-    let varReturn = (v, node) => {
-        let parent = (node.parent) ? node.parent : null,
-            variable = null;
-        if (parent) {
-            parent.walkDecls(`$${v}`, decl => { variable = decl.value; });
-            if (variable) { return variable; }
-            return varReturn(v, parent);
-        }
-        return null;
-    };
     let applyColor = o => {
         ['params', 'selector', 'prop', 'value'].forEach(prop => {
             if (o.hasOwnProperty(prop)) {
                 o[prop] = o[prop].replace(/(^c\(|[\s\(\,\)]c\()/ig, (s) => { return s.replace('c(', 'color-variable('); });
                 o[prop] = o[prop].replace(/color\-variable\(([^\s\)]+)(\s((([^\(\)]+)?\(([^\(\)]+)?\)([^\(\)]+)?)|[^\)]+))?\)/ig, (s, v, d = null) => {
-                    let color = varReturn(`color-${v}`, o);
+                    let color = util.sassGetVar(`color-${v}`, o);
                     if (color === null) {
-                        removeEmpty(o);
+                        util.removeNode(o);
                     } else {
                         if (d !== null) {
                             d = d.trim();
@@ -60,13 +50,6 @@ module.exports = postcss.plugin('postcss-styler-color', () => {
                 });
             }
         });
-    }
-    let removeEmpty = o => {
-        let parent = o.parent;
-        o.remove();
-        if (parent && parent.nodes.lenght == 0) {
-            removeEmpty(parent);
-        }
     }
     return css => {
         css.walkAtRules(atrule => { applyColor(atrule); });
