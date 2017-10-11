@@ -1,3 +1,6 @@
+# 2.0.6 - 2017-10-11
+* Fixed issue with values when not found
+
 # 2.0.5 - 2017-10-11
 * Fixed issues with latest update
 

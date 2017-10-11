@@ -16,6 +16,7 @@ module.exports = postcss.plugin('postcss-styler-var', () => {
                         if (o.type !== 'atrule') {
                             removeEmpty(o);
                         }
+                        return null;
                     }
                 });
             }
